@@ -1,1 +1,262 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>キャラクタージェネレーター</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        padding: 30px 15px;
+        font-family: sans-serif;
+        background: linear-gradient(135deg, #eaf8ff, #fff4fb);
+        color: #555;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: auto;
+        background: rgba(255,255,255,0.92);
+        padding: 25px 20px;
+        border-radius: 24px;
+        box-shadow: 0 8px 25px rgba(120,160,190,0.18);
+    }
+
+    h1 {
+        text-align: center;
+        color: #6aa9c8;
+        font-size: 26px;
+        margin-bottom: 10px;
+    }
+
+    .description {
+        text-align: center;
+        line-height: 1.7;
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+
+    button {
+        display: block;
+        width: 100%;
+        border: none;
+        border-radius: 50px;
+        padding: 15px;
+        font-size: 17px;
+        font-weight: bold;
+        color: white;
+        background: linear-gradient(90deg, #79c8e8, #d49bdc);
+        cursor: pointer;
+        box-shadow: 0 5px 12px rgba(150,150,190,0.2);
+    }
+
+    button:active {
+        transform: scale(0.98);
+    }
+
+    .result {
+        margin-top: 25px;
+    }
+
+    .item {
+        background: #f8fbfd;
+        border-radius: 16px;
+        padding: 15px;
+        margin-bottom: 12px;
+        border-left: 5px solid #a7d9ec;
+    }
+
+    .label {
+        font-size: 13px;
+        color: #8aaab8;
+        margin-bottom: 5px;
+    }
+
+    .value {
+        font-size: 17px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    .footer {
+        text-align: center;
+        margin-top: 25px;
+        font-size: 12px;
+        color: #999;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🌟 キャラクタージェネレーター 🌟</h1>
+
+    <div class="description">
+        5つの要素をランダムに組み合わせて<br>
+        オリジナルキャラクターを作ってみよう！
+    </div>
+
+    <button onclick="generateCharacter()">
+        ✨ キャラクターを生成 ✨
+    </button>
+
+    <div class="result">
+
+        <div class="item">
+            <div class="label">🎨 イメージカラー</div>
+            <div class="value" id="color">---</div>
+        </div>
+
+        <div class="item">
+            <div class="label">🌸 モチーフ</div>
+            <div class="value" id="motif">---</div>
+        </div>
+
+        <div class="item">
+            <div class="label">💇 髪型</div>
+            <div class="value" id="hair">---</div>
+        </div>
+
+        <div class="item">
+            <div class="label">👗 服装</div>
+            <div class="value" id="clothes">---</div>
+        </div>
+
+        <div class="item">
+            <div class="label">✨ 装飾小物</div>
+            <div class="value" id="accessory">---</div>
+        </div>
+
+    </div>
+
+    <div class="footer">
+        Character Generator
+    </div>
+
+</div>
+
+<script>
+
+const colors = [
+    "赤",
+    "オレンジ",
+    "黄色",
+    "黄緑",
+    "緑",
+    "水色",
+    "青",
+    "紫",
+    "ピンク",
+    "白",
+    "黒",
+    "金色"
+];
+
+const motifs = [
+    "蝶",
+    "花",
+    "星",
+    "月",
+    "太陽",
+    "雲",
+    "雨",
+    "雪",
+    "虹",
+    "宝石",
+    "リボン",
+    "ハート",
+    "羽根",
+    "天使",
+    "悪魔",
+    "猫",
+    "うさぎ",
+    "狐",
+    "鳥",
+    "魚",
+    "貝殻",
+    "いちご",
+    "さくらんぼ",
+    "りんご",
+    "マカロン",
+    "ケーキ",
+    "キャンディ",
+    "チョコレート",
+    "紅茶",
+    "クッキー"
+];
+
+const hairstyles = [
+    "ロングストレート",
+    "ゆるふわロング",
+    "ツインテール",
+    "ポニーテール",
+    "ボブ",
+    "ショートヘア",
+    "ウルフカット"
+];
+
+const clothes = [
+    "クラシカルロリータ",
+    "ゴシックファッション",
+    "ガーリーファッション",
+    "セーラー服",
+    "制服風ファッション",
+    "アイドル衣装",
+    "ファンタジー衣装",
+    "ヴィンテージファッション",
+    "カジュアルファッション",
+    "王子様風ファッション"
+];
+
+const accessories = [
+    "リボン",
+    "ヘアピン",
+    "ヘアクリップ",
+    "カチューシャ",
+    "帽子",
+    "ベレー帽",
+    "イヤリング",
+    "ネックレス",
+    "チョーカー",
+    "ブローチ",
+    "コサージュ",
+    "ブレスレット",
+    "指輪",
+    "バッグ",
+    "ぬいぐるみ"
+];
+
+function randomItem(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+function generateCharacter() {
+
+    document.getElementById("color").textContent =
+        randomItem(colors);
+
+    document.getElementById("motif").textContent =
+        randomItem(motifs);
+
+    document.getElementById("hair").textContent =
+        randomItem(hairstyles);
+
+    document.getElementById("clothes").textContent =
+        randomItem(clothes);
+
+    document.getElementById("accessory").textContent =
+        randomItem(accessories);
+}
+
+</script>
+
+</body>
+</html>
